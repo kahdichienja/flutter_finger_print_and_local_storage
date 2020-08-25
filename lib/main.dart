@@ -1,3 +1,4 @@
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,33 +8,81 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 
 import 'config/colors.dart';
 import 'config/utility.dart';
+// new
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'models/user.dart';
+import 'provider/image_upload_provider.dart';
+import 'provider/user_provider.dart';
+import 'resources/auth_methods.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/search_screen.dart';
 
-void main() {
-  runApp(MyApp());
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
 }
 
-class MyApp extends StatelessWidget {
+class _MyAppState extends State<MyApp> {
+  final AuthMethods _authMethods = AuthMethods();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: "Circular",
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ImageUploadProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: MaterialApp(
+        title: "Skype Clone",
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/search_screen': (context) => SearchScreen(),
+        },
+        theme: ThemeData(brightness: Brightness.dark),
+        home: FutureBuilder(
+          future: _authMethods.getCurrentUser(),
+          builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+            if (snapshot.hasData) {
+              return HomeScreen();
+            } else {
+              return LoginScreen();
+            }
+          },
+        ),
       ),
-      home: LoginPage(),
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
+class HomeWidget extends StatelessWidget {
+  final AuthMethods _authMethods = AuthMethods();
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _authMethods.getUserDetails(),
+      builder: (context, AsyncSnapshot<User> snapshot) {
+        if (snapshot.hasData) {
+          return HomeScreen();
+        } else {
+          return LoginScreen();
+        }
+      },
+    );
+  }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageWithBioMet extends StatefulWidget {
+  @override
+  _LoginPageWithBioMetState createState() => _LoginPageWithBioMetState();
+}
+
+class _LoginPageWithBioMetState extends State<LoginPageWithBioMet> {
   bool _rememberMe = false;
   final TextEditingController _usernameOrMailController =
       TextEditingController();
@@ -225,7 +274,6 @@ class _LoginPageState extends State<LoginPage> {
 
     return username;
   }
-  
 
   Widget _buildEmailTF() {
     return Column(
@@ -318,14 +366,17 @@ class _LoginPageState extends State<LoginPage> {
       height: userHasTouchId ? 35 : 20.0,
       child: userHasTouchId
           ? RaisedButton(
-             padding: EdgeInsets.symmetric(horizontal: 25.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-            elevation: 5.0,
+              padding: EdgeInsets.symmetric(horizontal: 25.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              elevation: 5.0,
               color: Colors.white,
               onPressed: () => _loginWithFingerPrint(),
-              child: Icon(Icons.fingerprint, color: Colors.blueAccent,),
+              child: Icon(
+                Icons.fingerprint,
+                color: Colors.blueAccent,
+              ),
             )
           : Row(
               children: <Widget>[
@@ -353,44 +404,48 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildLoginBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: userHasTouchId ? Center(child: Text('Press The Finger Print Button', style: TextStyle(
-        color: Colors.blue,
-        fontWeight: FontWeight.bold
-      ),)) : RaisedButton(
-        elevation: 5.0,
-        onPressed: () async {
-          var username = _usernameOrMailController.text;
-          var password = _pwdController.text;
-          var bioMetCheck = _rememberMe;
+        padding: EdgeInsets.symmetric(vertical: 25.0),
+        width: double.infinity,
+        child: userHasTouchId
+            ? Center(
+                child: Text(
+                'Press The Finger Print Button',
+                style:
+                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              ))
+            : RaisedButton(
+                elevation: 5.0,
+                onPressed: () async {
+                  var username = _usernameOrMailController.text;
+                  var password = _pwdController.text;
+                  var bioMetCheck = _rememberMe;
 
-          var userData = await attemptLogIn(username, password, bioMetCheck);
+                  var userData =
+                      await attemptLogIn(username, password, bioMetCheck);
 
-          if (userData == null) {
-            print('ok');
+                  if (userData == null) {
+                    print('ok');
 
-            displayDialog(context, DialogType.ERROR,
-                "No account was found matching that username and password");
-          }
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.white,
-        child: Text(
-          'LOGIN',
-          style: TextStyle(
-            color: Color(0xFF527DAA),
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Circular',
-          ),
-        ),
-      )
-    );
+                    displayDialog(context, DialogType.ERROR,
+                        "No account was found matching that username and password");
+                  }
+                },
+                padding: EdgeInsets.all(15.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                color: Colors.white,
+                child: Text(
+                  'LOGIN',
+                  style: TextStyle(
+                    color: Color(0xFF527DAA),
+                    letterSpacing: 1.5,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Circular',
+                  ),
+                ),
+              ));
   }
 
   Widget _buildSignInWithText() {
@@ -563,5 +618,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-

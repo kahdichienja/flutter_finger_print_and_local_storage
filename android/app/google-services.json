@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "646611768561",
+    "firebase_url": "https://fluttervideo-b9cfc.firebaseio.com",
+    "project_id": "fluttervideo-b9cfc",
+    "storage_bucket": "fluttervideo-b9cfc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646611768561:android:3bf1d1b3a420ea50284550",
+        "android_client_info": {
+          "package_name": "com.example.sign_in_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646611768561-nun1d4m84k6mli0isi38q10a71cm5vjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrsQat0VUQhIV1RycUC5JduUDozqYfyYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646611768561-nun1d4m84k6mli0isi38q10a71cm5vjc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
