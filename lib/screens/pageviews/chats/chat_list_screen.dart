@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_flutter/utils/ColorLoaders.dart';
 import '../../../models/contact.dart';
 import '../../../provider/user_provider.dart';
 import '../../../resources/chat_methods.dart';
@@ -81,7 +82,11 @@ class ChatListContainer extends StatelessWidget {
               );
             }
 
-            return Center(child: CircularProgressIndicator());
+            return Center(child: ColorLoader2(
+                          color3: Colors.green,
+                          color2: Colors.greenAccent,
+                          color1: Colors.lightGreenAccent,
+                        ),);
           }),
     );
   }

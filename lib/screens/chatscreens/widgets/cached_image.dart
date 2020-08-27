@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_in_flutter/utils/ColorLoaders.dart';
 
 class CachedImage extends StatelessWidget {
   final String imageUrl;
@@ -34,7 +35,11 @@ class CachedImage extends StatelessWidget {
               imageUrl: imageUrl,
               fit: fit,
               placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
+                  Center(child: ColorLoader2(
+                          color3: Colors.green,
+                          color2: Colors.greenAccent,
+                          color1: Colors.lightGreenAccent,
+                        ),),
               errorWidget: (context, url, error) => Image.network(
                 noImageAvailable,
                 height: 25,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_flutter/utils/ColorLoaders.dart';
 import '../../../../models/contact.dart';
 import '../../../../models/user.dart';
 import '../../../../provider/user_provider.dart';
@@ -31,7 +32,11 @@ class ContactView extends StatelessWidget {
           );
         }
         return Center(
-          child: CircularProgressIndicator(),
+          child: ColorLoader2(
+            color3: Colors.green,
+            color2: Colors.greenAccent,
+            color1: Colors.lightGreenAccent,
+          ),
         );
       },
     );
@@ -62,7 +67,7 @@ class ViewLayout extends StatelessWidget {
       title: Text(
         (contact != null ? contact.name : null) != null ? contact.name : "..",
         style:
-            TextStyle(color: Colors.white, fontFamily: "Arial", fontSize: 19),
+            TextStyle(color: Colors.white, fontFamily: "Circular", fontSize: 19),
       ),
       subtitle: LastMessageContainer(
         stream: _chatMethods.fetchLastMessageBetween(
@@ -74,13 +79,24 @@ class ViewLayout extends StatelessWidget {
         constraints: BoxConstraints(maxHeight: 60, maxWidth: 60),
         child: Stack(
           children: <Widget>[
-            CachedImage(
-              contact.profilePhoto,
-              radius: 80,
-              isRound: true,
+            CircleAvatar(
+              backgroundColor: Colors.green,
+              radius: 20.0,
+              child: CircleAvatar(
+                radius: 18.0,
+                child: CachedImage(
+                  contact.profilePhoto,
+                  radius: 70,
+                  isRound: true,
+                ),
+              ),
             ),
-            OnlineDotIndicator(
-              uid: contact.uid,
+            Positioned(
+              right: 1,
+              bottom: 0,
+              child: OnlineDotIndicator(
+                uid: contact.uid,
+              ),
             ),
           ],
         ),

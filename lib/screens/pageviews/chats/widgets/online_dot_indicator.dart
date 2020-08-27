@@ -42,7 +42,7 @@ class OnlineDotIndicator extends StatelessWidget {
           return Container(
             height: 10,
             width: 10,
-            margin: EdgeInsets.only(right: 5, top: 5),
+            margin: EdgeInsets.only(right: 1, top: 2, left: 5),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: getColor(user?.state),

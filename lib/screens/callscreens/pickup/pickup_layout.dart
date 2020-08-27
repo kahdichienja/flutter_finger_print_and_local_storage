@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_flutter/utils/ColorLoaders.dart';
 import '../../../models/call.dart';
 import '../../../provider/user_provider.dart';
 import '../../../resources/call_methods.dart';
@@ -34,7 +35,11 @@ class PickupLayout extends StatelessWidget {
           )
         : Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: ColorLoader2(
+                          color3: Colors.green,
+                          color2: Colors.greenAccent,
+                          color1: Colors.lightGreenAccent,
+                        ),
             ),
           );
   }

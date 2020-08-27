@@ -339,7 +339,7 @@ class _CallScreenState extends State<CallScreen> {
           RawMaterialButton(
             onPressed: _onSwitchCamera,
             child: Icon(
-              Icons.switch_camera,
+              Icons.camera,
               color: Colors.blueAccent,
               size: 20.0,
             ),

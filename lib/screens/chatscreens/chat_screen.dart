@@ -5,6 +5,7 @@ import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_flutter/utils/ColorLoaders.dart';
 import '../../constants/strings.dart';
 import '../../enum/view_state.dart';
 import '../../models/message.dart';
@@ -96,7 +97,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 ? Container(
                     alignment: Alignment.centerRight,
                     margin: EdgeInsets.only(right: 15),
-                    child: CircularProgressIndicator(),
+                    child: ColorLoader2(
+                      color3: Colors.green,
+                      color2: Colors.greenAccent,
+                      color1: Colors.lightGreenAccent,
+                    ),
                   )
                 : Container(),
             chatControls(),
@@ -135,7 +140,12 @@ class _ChatScreenState extends State<ChatScreen> {
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.data == null) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+              child: ColorLoader2(
+            color3: Colors.green,
+            color2: Colors.greenAccent,
+            color1: Colors.lightGreenAccent,
+          ));
         }
 
         // SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -281,37 +291,162 @@ class _ChatScreenState extends State<ChatScreen> {
                 Flexible(
                   child: ListView(
                     children: <Widget>[
-                      ModalTile(
-                        title: "Media",
-                        subtitle: "Share Photos and Video",
-                        icon: Icons.image,
-                        onTap: () => pickImage(source: ImageSource.gallery),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: InkWell(
+                            onTap: () => pickImage(source: ImageSource.gallery),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 3.0),
+                              child: Container(
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.orangeAccent),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.photo,
+                                      color: Colors.white,
+                                    ),
+                                    Text("Media",
+                                        style: TextStyle(color: Colors.white))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )),
+                          Expanded(
+                              child: Container(
+                            height: 100.0,
+                            child: Column(
+                              children: <Widget>[
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () =>
+                                        pickImage(source: ImageSource.gallery),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 2.5, right: 2.0, left: 2.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.blueAccent,
+                                            borderRadius:
+                                                BorderRadius.circular(5.0)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 5.0),
+                                              child: Icon(Icons.attach_file,
+                                                  color: Colors.white),
+                                            ),
+                                            Text("Share File",
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.5, right: 2.0, left: 2.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.lightBlue,
+                                          borderRadius:
+                                              BorderRadius.circular(5.0)),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Icon(Icons.contacts,
+                                                color: Colors.white),
+                                          ),
+                                          Text("Share Contacts",
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                          Expanded(
+                              child: Container(
+                            height: 100.0,
+                            child: Column(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 2.5, bottom: 2.5),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFF53CEDB),
+                                          borderRadius:
+                                              BorderRadius.circular(5.0)),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Icon(Icons.location_on,
+                                                color: Colors.white),
+                                          ),
+                                          Text("Share Location",
+                                              style: TextStyle(
+                                                  color: Colors.white))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 2.5, top: 2.5),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFFF1B069),
+                                          borderRadius:
+                                              BorderRadius.circular(5.0)),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Icon(Icons.alarm_add,
+                                                color: Colors.white),
+                                          ),
+                                          Text("Schedule Call",
+                                              style: TextStyle(
+                                                  color: Colors.white))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                        ],
                       ),
-                      ModalTile(
-                        title: "File",
-                        subtitle: "Share files",
-                        icon: Icons.tab,
-                      ),
-                      ModalTile(
-                        title: "Contact",
-                        subtitle: "Share contacts",
-                        icon: Icons.contacts,
-                      ),
-                      ModalTile(
-                        title: "Location",
-                        subtitle: "Share a location",
-                        icon: Icons.add_location,
-                      ),
-                      ModalTile(
-                        title: "Schedule Call",
-                        subtitle: "Arrange a skype call and get reminders",
-                        icon: Icons.schedule,
-                      ),
-                      ModalTile(
-                        title: "Create Poll",
-                        subtitle: "Share polls",
-                        icon: Icons.poll,
-                      )
                     ],
                   ),
                 ),
@@ -481,7 +616,14 @@ class _ChatScreenState extends State<ChatScreen> {
           icon: Icon(
             Icons.phone,
           ),
-          onPressed: () {},
+          onPressed: () async =>
+              await Permissions.cameraAndMicrophonePermissionsGranted()
+                  ? CallUtils.dial(
+                      from: sender,
+                      to: widget.receiver,
+                      context: context,
+                    )
+                  : {},
         )
       ],
     );
