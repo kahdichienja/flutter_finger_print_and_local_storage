@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:provider/provider.dart';
+import 'package:sign_in_flutter/provider/notification_provider.dart';
 import '../../../constants/strings.dart';
 import '../../../models/call.dart';
 import '../../../models/log.dart';
@@ -122,6 +125,7 @@ class _PickupScreenState extends State<PickupScreen> {
   bool isCallMissed = true;
 
   addToLocalStorage({@required String callStatus}) {
+    
     Log log = Log(
       callerName: widget.call.callerName,
       callerPic: widget.call.callerPic,
@@ -137,6 +141,7 @@ class _PickupScreenState extends State<PickupScreen> {
   @override
   void dispose() {
     if (isCallMissed) {
+      FlutterRingtonePlayer.stop();
       addToLocalStorage(callStatus: CALL_STATUS_MISSED);
       _showNotifications();
     }
@@ -146,6 +151,7 @@ class _PickupScreenState extends State<PickupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final notificationWhenCall = Provider.of<UserNotificationProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
@@ -187,6 +193,7 @@ class _PickupScreenState extends State<PickupScreen> {
                     onPressed: () async {
                       isCallMissed = false;
                       addToLocalStorage(callStatus: CALL_STATUS_RECEIVED);
+                      FlutterRingtonePlayer.stop();
                       await callMethods.endCall(call: widget.call);
                     },
                   ),
@@ -197,6 +204,7 @@ class _PickupScreenState extends State<PickupScreen> {
                       onPressed: () async {
                         isCallMissed = false;
                         addToLocalStorage(callStatus: CALL_STATUS_RECEIVED);
+                        FlutterRingtonePlayer.stop();
                         await Permissions
                                 .cameraAndMicrophonePermissionsGranted()
                             ? Navigator.push(

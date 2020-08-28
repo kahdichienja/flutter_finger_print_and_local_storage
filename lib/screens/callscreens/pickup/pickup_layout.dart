@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_flutter/utils/ColorLoaders.dart';
 import '../../../models/call.dart';
@@ -27,6 +28,7 @@ class PickupLayout extends StatelessWidget {
                 Call call = Call.fromMap(snapshot.data.data);
 
                 if (!call.hasDialled) {
+                  FlutterRingtonePlayer.playRingtone();
                   return PickupScreen(call: call);
                 }
               }

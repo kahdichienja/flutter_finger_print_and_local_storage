@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'models/user.dart';
 import 'provider/image_upload_provider.dart';
+import 'provider/notification_provider.dart';
 import 'provider/user_provider.dart';
 import 'resources/auth_methods.dart';
 import 'screens/home_screen.dart';
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => ImageUploadProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => UserNotificationProvider()),
       ],
       child: MaterialApp(
         title: "@VideoCall Chienja",
