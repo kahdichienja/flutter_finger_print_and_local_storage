@@ -25,7 +25,7 @@ class StorageMethods {
       StorageUploadTask storageUploadTask =
           _storageReference.putFile(imageFile);
       var url = await (await storageUploadTask.onComplete).ref.getDownloadURL();
-      // print(url);
+      print(url);
       return url;
     } catch (e) {
       return null;

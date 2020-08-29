@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../constants/strings.dart';
 import '../models/contact.dart';
@@ -13,6 +16,8 @@ class ChatMethods {
 
   final CollectionReference _userCollection =
       _firestore.collection(USERS_COLLECTION);
+
+  StorageReference _storageReference;
 
   Future<void> addMessageToDb(
     Message message,

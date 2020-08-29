@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -53,9 +52,8 @@ class _CallScreenState extends State<CallScreen> {
     _addAgoraEventHandlers();
     await AgoraRtcEngine.enableWebSdkInteroperability(true);
     await AgoraRtcEngine.setParameters(
-        '''{\"che.video.lowBitRateStreamParameter\":{\"width\":320,\"height\":180,\"frameRate\":15,\"bitRate\":140}}''');
+        '''{\"che.video.lowBitRateStreamParameter\":{\"width\":320,\"height\":180,\"frameRate\":15,\"bitRate\":440}}''');
     await AgoraRtcEngine.joinChannel(null, widget.call.channelId, null, 0);
-    
   }
 
   addPostFrameCallback() {
@@ -215,17 +213,20 @@ class _CallScreenState extends State<CallScreen> {
       case 2:
         return Container(
             child: Column(
-          children: <Widget>[
-            _expandedVideoRow([views[0]]),
-            _expandedVideoRow([views[1]])
+          children: <Widget>[          
+           _expandedVideoRow([views[0]]),
+            _expandedVideoRow([views[1]]),
           ],
+          
         ));
       case 3:
         return Container(
             child: Column(
           children: <Widget>[
             _expandedVideoRow(views.sublist(0, 2)),
-            _expandedVideoRow(views.sublist(2, 3))
+
+            _expandedVideoRow(views.sublist(2, 3)),
+            // _one3()
           ],
         ));
       case 4:
@@ -233,7 +234,7 @@ class _CallScreenState extends State<CallScreen> {
             child: Column(
           children: <Widget>[
             _expandedVideoRow(views.sublist(0, 2)),
-            _expandedVideoRow(views.sublist(2, 4))
+            _expandedVideoRow(views.sublist(2, 4)),
           ],
         ));
       default:
